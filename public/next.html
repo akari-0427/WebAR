@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* サイズに合わせて動画を調整 */
+      }
+    </style>
+  </head>
+  <body>
+    <video id="myVideo1" src="./assets/はずれ3.mp4" alt="デフォルト画像" autoplay muted playsinline style="display: none"></video>
+    <video id="myVideo2" src="./assets/あたり3.mp4" alt="別の動画" autoplay muted playsinline style="display: none"></video>
+
+    <script>
+      // 乱数を生成（0から100の範囲）
+      const randomNumber = Math.floor(Math.random() * 101);
+      console.log(randomNumber);
+
+      // 30以上の場合にビデオを表示
+      if (randomNumber >= 10) {
+        const videoElement = document.getElementById("myVideo2");
+        videoElement.style.display = "block"; // ビデオを表示
+      } else {
+        const defaultVideoElement = document.getElementById("myVideo1");
+        defaultVideoElement.style.display = "block"; // デフォルトビデオを表示
+      }
+    </script>
+  </body>
+</html>

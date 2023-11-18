@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+    <!-- A-Frame を読み込む -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <!-- AR.js を読み込む -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <title>任意のページタイトル</title>
+</head>
+<body style="margin: 0; overflow: hidden">
+    <p class="mozi">読み込み中・・・</p>
+    <style>
+        .mozi{
+            text-align: center;
+        }
+    </style>
+    <!-- A-FrameにAR.jsを紐づけ、VRボタン非表示、深度バッファ追加 -->
+    <a-scene embedded arjs vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true" physics="gravity: -9.8">
+        <!-- 3DCGモデルを読み込む -->
+        <a-assets>
+            <a-asset-item id="gatya4" src="./assets/gatya4.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- マーカーの.pattファイルを読み込む -->
+        <a-marker type="pattern" url="./assets/pattern-webAR.patt">
+            <!-- 3Dモデルを呼び出す -->
+            <a-entity gltf-model="#gatya4" scale="0.2 0.2 0.2" rotation="0 -90 90" dynamic-body="mass: 2; shape: auto" animation-mixer="clip: *; loop: repeat;" visible="false">
+            </a-entity>
+        </a-marker>
+
+        <!-- カメラを追加 -->
+        <a-entity camera></a-entity>
+    </a-scene>
+    <script>
+        document.querySelector("a-marker").addEventListener("markerFound", function () {
+            // マーカーが検出されたときにアニメーションを開始
+            const model = document.querySelector("a-marker a-entity[animation-mixer]");
+            model.setAttribute("animation-mixer", { enabled: true });
+        });
+
+        function onMarkerFound() {
+            console.log("マーカーが見つかりました");
+
+            // マーカーが見つかったらアニメーションを表示
+            const model = document.querySelector('a-marker a-entity[animation-mixer]');
+            model.setAttribute('visible', true);
+
+            // 5秒後に画面を遷移
+            setTimeout(function () {
+                window.location.href = 'next.html'; // 遷移先のページのURLを指定
+            }, 5000); // 5秒 (5000ミリ秒) 後に遷移
+        }
+
+        // マーカー読み込みイベントをリッスン
+        document.querySelector("a-marker").addEventListener("markerFound", onMarkerFound);
+    </script>
+</body>
+</html>
